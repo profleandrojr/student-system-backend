@@ -1,10 +1,10 @@
 package com.studentsystem.student_control.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.studentsystem.student_control.model.User;
-
-import graphql.com.google.common.base.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
