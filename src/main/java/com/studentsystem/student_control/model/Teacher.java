@@ -15,6 +15,6 @@ import lombok.experimental.SuperBuilder;
 @Table(name = "teachers")
 public class Teacher extends User {
 
-    private String departament;
+    private String department;
     private String academicTitle;
 }
