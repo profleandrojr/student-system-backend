@@ -31,4 +31,28 @@ public class TopicService {
         return topicRepository.save(topic);
     }
 
+    public com.studentsystem.student_control.model.Topic updateTopic(Long id, com.studentsystem.student_control.dto.TopicDTO dto) {
+        var topic = topicRepository.findById(id)
+                .orElseThrow(() -> new jakarta.persistence.EntityNotFoundException("Topic not found"));
+
+        // Update fields
+        topic.setName(dto.name());
+        topic.setDescription(dto.description());
+        // Ideally we check if teacher exists before switching, but for speed:
+        if (dto.teacherId() != null) {
+            var teacher = teacherRepository.findById(dto.teacherId())
+                    .orElseThrow(() -> new jakarta.persistence.EntityNotFoundException("Teacher not found"));
+            topic.setTeacher(teacher);
+        }
+
+        return topicRepository.save(topic);
+    }
+
+    public void deleteTopic(Long id) {
+        if (!topicRepository.existsById(id)) {
+            throw new jakarta.persistence.EntityNotFoundException("Topic not found");
+        }
+        topicRepository.deleteById(id);
+    }
+
 }

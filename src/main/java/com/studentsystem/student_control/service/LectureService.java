@@ -44,4 +44,29 @@ public class LectureService {
                 saved.getClassRoom().getName()
         );
     }
+
+    public com.studentsystem.student_control.dto.LectureResponseDTO updateLecture(Long id, com.studentsystem.student_control.dto.LectureDTO dto) {
+        var lecture = lectureRepository.findById(id)
+                .orElseThrow(() -> new jakarta.persistence.EntityNotFoundException("Lecture not found"));
+
+        lecture.setTitle(dto.title());
+        lecture.setStartTime(dto.startTime());
+        // Recalculate end time
+        lecture.setEndTime(dto.startTime().plusHours(1));
+
+        com.studentsystem.student_control.model.Lecture saved = lectureRepository.save(lecture);
+
+        // Map to Response DTO manually (or extract the mapper method like in other services)
+        return new com.studentsystem.student_control.dto.LectureResponseDTO(
+                saved.getId(), saved.getTitle(), saved.getStartTime(), saved.getEndTime(), saved.isActive(), saved.getClassRoom().getName()
+        );
+    }
+
+    public void deleteLecture(Long id) {
+        if (!lectureRepository.existsById(id)) {
+            throw new jakarta.persistence.EntityNotFoundException("Lecture not found");
+        }
+        lectureRepository.deleteById(id);
+    }
+
 }

@@ -70,4 +70,24 @@ public class ClassRoomService {
         ClassRoom saved = classRoomRepository.save(classRoom);
         return mapToResponse(saved); // <--- Return the DTO
     }
+
+    public ClassRoomResponseDTO updateClassRoom(Long id, com.studentsystem.student_control.dto.ClassRoomDTO dto) {
+        var classRoom = classRoomRepository.findById(id)
+                .orElseThrow(() -> new jakarta.persistence.EntityNotFoundException("ClassRoom not found"));
+
+        classRoom.setName(dto.name());
+        // Assuming we allow changing topic/teacher (requires fetching them)
+        // For brevity, let's just update the name. 
+        // If you need to update relations, fetch them like in createClassRoom.
+
+        return mapToResponse(classRoomRepository.save(classRoom));
+    }
+
+    public void deleteClassRoom(Long id) {
+        if (!classRoomRepository.existsById(id)) {
+            throw new jakarta.persistence.EntityNotFoundException("ClassRoom not found");
+        }
+        classRoomRepository.deleteById(id);
+    }
+
 }

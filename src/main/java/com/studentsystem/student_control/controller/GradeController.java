@@ -40,4 +40,16 @@ public class GradeController {
     public ResponseEntity<List<GradeResponseDTO>> getClassGrades(@PathVariable Long classId) {
         return ResponseEntity.ok(gradeService.getGradesByClass(classId));
     }
+
+    @org.springframework.web.bind.annotation.PutMapping("/{id}")
+    public ResponseEntity<GradeResponseDTO> update(@PathVariable Long id, @RequestBody com.studentsystem.student_control.dto.GradeDTO dto) {
+        return ResponseEntity.ok(gradeService.updateGrade(id, dto));
+    }
+
+    @org.springframework.web.bind.annotation.DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        gradeService.deleteGrade(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }

@@ -34,4 +34,15 @@ public class ClassRoomController {
             @PathVariable Long studentId) {
         return ResponseEntity.ok(classRoomService.enrollStudent(classId, studentId));
     }
+
+    @org.springframework.web.bind.annotation.PutMapping("/{id}")
+    public ResponseEntity<ClassRoomResponseDTO> update(@PathVariable Long id, @RequestBody com.studentsystem.student_control.dto.ClassRoomDTO dto) {
+        return ResponseEntity.ok(classRoomService.updateClassRoom(id, dto));
+    }
+
+    @org.springframework.web.bind.annotation.DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        classRoomService.deleteClassRoom(id);
+        return ResponseEntity.noContent().build();
+    }
 }

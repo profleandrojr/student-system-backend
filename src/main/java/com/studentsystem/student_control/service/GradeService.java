@@ -82,4 +82,21 @@ public class GradeService {
                 grade.getClassRoom().getName()
         );
     }
+
+    public GradeResponseDTO updateGrade(Long id, com.studentsystem.student_control.dto.GradeDTO dto) {
+        var grade = gradeRepository.findById(id)
+                .orElseThrow(() -> new jakarta.persistence.EntityNotFoundException("Grade not found"));
+
+        grade.setScore(dto.score());
+        grade.setDescription(dto.description());
+
+        return mapToResponse(gradeRepository.save(grade));
+    }
+
+    public void deleteGrade(Long id) {
+        if (!gradeRepository.existsById(id)) {
+            throw new jakarta.persistence.EntityNotFoundException("Grade not found");
+        }
+        gradeRepository.deleteById(id);
+    }
 }
