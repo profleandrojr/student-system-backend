@@ -56,6 +56,12 @@ public class GradeService {
     }
 
     public List<GradeResponseDTO> getGradesByStudent(Long studentId) {
+        // Check if student exists first
+        if (!userRepository.existsById(studentId)) {
+            throw new EntityNotFoundException("Student not found");
+        }
+
+        // Then fetch grades
         return gradeRepository.findByStudentId(studentId).stream()
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
